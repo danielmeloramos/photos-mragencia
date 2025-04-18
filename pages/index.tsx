@@ -29,7 +29,7 @@ const Home: NextPage = ({
   const chunkSize = 20
   const [visibleImages, setVisibleImages] = useState([])
 
-  const lastViewedPhotoRef = useRef<HTMLAnchorElement>(null)
+  const lastViewedPhotoRef = useRef<HTMLDivElement | null>(null)
 
   const handleScroll = () => {
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement
