@@ -28,8 +28,34 @@ const Home: NextPage = ({
   const initialLoadCount = 20
   const chunkSize = 20
   const [visibleImages, setVisibleImages] = useState([])
+  const [selectedImages, setSelectedImages] = useState<string[]>([]) // Agora é um array de public_id
 
   const lastViewedPhotoRef = useRef<HTMLDivElement | null>(null)
+
+  // Função para manipular a seleção de imagens
+  const handleSelect = (public_id: string) => {
+    setSelectedImages((prevSelected) => {
+      // Adiciona ou remove o public_id da imagem selecionada
+      if (prevSelected.includes(public_id)) {
+        return prevSelected.filter((imagePublicId) => imagePublicId !== public_id) // Remove se já estiver selecionado
+      } else {
+        return [...prevSelected, public_id] // Adiciona se não estiver selecionado
+      }
+    })
+  }
+
+  // Calcular o preço
+  const calculatePrice = () => {
+    let price = 0;
+    
+    if (selectedImages.length === 0) return 0;
+    if (selectedImages.length === 1) price = 8;
+    else price = 8 + (selectedImages.length - 1) * 5;
+  
+    // Arredondando o valor e formatando com ",00"
+    return price.toFixed(2).replace('.', ',');
+  }
+  
 
   const handleScroll = () => {
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement
@@ -118,6 +144,7 @@ const Home: NextPage = ({
                   height={height}
                   lastViewedPhoto={lastViewedPhoto}
                   lastViewedPhotoRef={lastViewedPhotoRef}
+                  onSelect={handleSelect}
                 />
               </Fragment>
             )
@@ -130,7 +157,10 @@ const Home: NextPage = ({
           setSelectedFolder={setSelectedFolder}
         />
 
-        <WhatsappButton />
+      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 flex items-center justify-between w-full w-[350px] px-6 py-3 text-white bg-blue-500 shadow-lg rounded-full">
+        <span className="font-semibold">Preço: R$ {calculatePrice()}</span>
+        <WhatsappButton selectedImages={selectedImages} />
+      </div>
 
       </main>
     </>

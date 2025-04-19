@@ -23,11 +23,10 @@ export default function ImageCard({
 
   const handleCheck = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      console.log('handleCheck', e.target.checked)
       e.stopPropagation()  // impede o clique de redirecionar
-      onSelect?.(id)  // chama a função para marcar ou desmarcar a foto
+      onSelect?.(public_id)  // chama a função para marcar ou desmarcar a foto
     },
-    [id, onSelect]
+    [public_id, onSelect]
   )
 
   return (

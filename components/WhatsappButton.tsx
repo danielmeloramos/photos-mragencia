@@ -1,18 +1,40 @@
-// components/WhatsappButton.tsx
-const WhatsappButton = () => {
-  const phoneNumber = '554991636022' // Substitui pelo teu número
-  const message = encodeURIComponent('Olá! Tenho interesse em comprar uma foto.')
+type WhatsappButtonProps = {
+  selectedImages: string[] // Recebe apenas os public_ids
+}
+
+const calculatePrice = (quantity: number): number => {
+  if (quantity === 0) return 0
+  if (quantity === 1) return 8
+  return 8 + (quantity - 1) * 5
+}
+
+const WhatsappButton = ({ selectedImages }: WhatsappButtonProps) => {
+  const phoneNumber = '554991636022'
+
+  const price = calculatePrice(selectedImages.length)
+  const formatPrice = (price: number) => `R$ ${price.toFixed(2).replace('.', ',')}`
+
+  const message = encodeURIComponent(
+    selectedImages.length > 0
+      ? `Olá! Tenho interesse em comprar ${selectedImages.length} foto${selectedImages.length > 1 ? 's' : ''}.\n\n` +
+        selectedImages
+          .map((public_id, index) => `${index + 1}. https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${public_id}.webp`)
+          .join('\n') +
+        `\n\nValor total: ${formatPrice(price)}`
+      : 'Olá! Tenho interesse em comprar uma foto.'
+  )
+
   const link = `https://wa.me/${phoneNumber}?text=${message}`
+
 
   return (
     <a
       href={link}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 flex items-center gap-2 rounded-full bg-blue-500 px-6 py-3 text-white shadow-lg hover:bg-blue-600 transition-all"
+      className="flex items-center gap-2 rounded-full bg-blue-500 px-6 py-3 text-white shadow-lg hover:bg-blue-600 transition-all"
       aria-label="Comprar foto via WhatsApp"
     >
-      {/* Ícone de carrinho (opcional: pode usar também um de WhatsApp) */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="white"
