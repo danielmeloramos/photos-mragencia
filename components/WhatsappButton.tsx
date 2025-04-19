@@ -12,7 +12,7 @@ const calculatePrice = (quantity: number): number => {
 }
 
 const WhatsappButton = ({ selectedImages }: WhatsappButtonProps) => {
-  const phoneNumber = '554991636022'
+  const phoneNumber = '5549991509774'
 
   const price = calculatePrice(selectedImages.length)
   const formatPrice = (price: number) => `R$ ${price.toFixed(2).replace('.', ',')}`
