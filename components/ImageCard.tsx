@@ -6,7 +6,7 @@ type Props = ImageProps & {
   lastViewedPhoto: string | null
   lastViewedPhotoRef: React.MutableRefObject<HTMLDivElement | null>
   isSelected?: boolean
-  onSelect?: (id: number) => void
+  onSelect?: (id: string) => void
   isSelectionMode?: boolean
 }
 
