@@ -1,3 +1,6 @@
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 type WhatsappButtonProps = {
   selectedImages: string[] // Recebe apenas os public_ids
 }
@@ -26,26 +29,47 @@ const WhatsappButton = ({ selectedImages }: WhatsappButtonProps) => {
 
   const link = `https://wa.me/${phoneNumber}?text=${message}`
 
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    if (selectedImages.length === 0) {
+      e.preventDefault()
+      toast.warn('Por favor, selecione ao menos uma imagem para continuar.', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+    }
+  }
 
   return (
-    <a
-      href={link}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="flex items-center gap-2 rounded-full bg-blue-500 px-6 py-3 text-white shadow-lg hover:bg-blue-600 transition-all"
-      aria-label="Comprar foto via WhatsApp"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="white"
-        viewBox="0 0 24 24"
-        width="24"
-        height="24"
+    <>
+      <a
+        href={selectedImages.length > 0 ? link : undefined}
+        target={selectedImages.length > 0 ? '_blank' : undefined}
+        rel={selectedImages.length > 0 ? 'noopener noreferrer' : undefined}
+        className={`flex items-center gap-2 rounded-full px-6 py-3 text-white shadow-lg transition-all ${
+          selectedImages.length === 0
+            ? 'bg-gray-400 cursor-not-allowed'
+            : 'bg-blue-500 hover:bg-blue-600'
+        }`}
+        aria-label="Comprar foto via WhatsApp"
+        onClick={handleClick}
       >
-        <path d="M7 4h-2l-3 9v2h2l3-9zm16 1h-14l-1.2 3h13.4l-1.5 4h-11l-1.2 3h12.9l3.5-10h-1zm-4 15c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm-10 0c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2z"/>
-      </svg>
-      <span className="font-semibold">Comprar foto</span>
-    </a>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="white"
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+        >
+          <path d="M7 4h-2l-3 9v2h2l3-9zm16 1h-14l-1.2 3h13.4l-1.5 4h-11l-1.2 3h12.9l3.5-10h-1zm-4 15c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm-10 0c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2z" />
+        </svg>
+        <span className="font-semibold">Comprar foto</span>
+      </a>
+    </>
   )
 }
 

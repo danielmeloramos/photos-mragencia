@@ -13,51 +13,54 @@ type Props = ImageProps & {
 export default function ImageCard({
   id,
   public_id,
-  width,
-  height,
   blurDataUrl,
   lastViewedPhoto,
   lastViewedPhotoRef,
   onSelect,
+  isSelected,
 }: Props) {
-
   const handleCheck = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      e.stopPropagation()  // impede o clique de redirecionar
-      onSelect?.(public_id)  // chama a função para marcar ou desmarcar a foto
+      e.stopPropagation()
+      onSelect?.(public_id)
     },
     [public_id, onSelect]
   )
 
   return (
     <div
-      key={id}
       ref={id === Number(lastViewedPhoto) ? lastViewedPhotoRef : null}
-      className={`group relative block w-full transition after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight`}
+      className="group relative w-full overflow-hidden rounded-xl bg-gray-100 transition-shadow hover:shadow-lg"
     >
-      {/* Checkbox de seleção */}
-      <div className="absolute top-2 right-2 z-30 p-1">
+      {/* Checkbox for selection */}
+      <div className="absolute right-3 top-3 z-10">
         <input
           type="checkbox"
+          checked={isSelected}
           onChange={handleCheck}
-          className="h-8 w-8 cursor-pointer appearance-auto accent-blue-500" // Apenas no checkbox
+          className="h-6 w-6 cursor-pointer rounded accent-blue-500"
         />
       </div>
 
-      {/* Imagem */}
+      {/* Image */}
       <CldImage
-        alt="MR photo"
-        className="transform rounded-lg brightness-90 transition will-change-auto group-hover:brightness-110"
-        style={{ transform: 'translate3d(0, 0, 0)' }}
+        alt="Football photo"
+        className="h-full w-full object-cover brightness-90 transition-transform duration-300 group-hover:brightness-100 group-hover:scale-105"
         placeholder="blur"
         blurDataURL={blurDataUrl}
         src={public_id}
-        width={width > height ? 1280 : 853}
-        height={height > width ? 1280 : 853}
+        width={400} // Aumentado para melhor qualidade no mobile
+        height={400}
+        crop="fill"
         format="webp"
         loading="lazy"
-        sizes="(max-width: 648px) 100vw, 25vw"
+        sizes="(max-width: 640px) 100vw, (max-width: 900px) 50vw, (max-width: 1280px) 33vw, 25vw"
       />
+
+      {/* Selected overlay */}
+      {isSelected && (
+        <div className="absolute inset-0 bg-blue-500/30 transition-opacity" />
+      )}
     </div>
   )
 }
