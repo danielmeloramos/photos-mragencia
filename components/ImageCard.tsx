@@ -1,8 +1,8 @@
 import { CldImage } from 'next-cloudinary'
-import { ImageProps } from 'utils/types'
 import { useCallback } from 'react'
+import { image } from 'types'
 
-type Props = ImageProps & {
+type Props = image & {
   lastViewedPhoto: string | null
   lastViewedPhotoRef: React.MutableRefObject<HTMLDivElement | null>
   isSelected?: boolean
@@ -30,36 +30,38 @@ export default function ImageCard({
   return (
     <div
       ref={id === Number(lastViewedPhoto) ? lastViewedPhotoRef : null}
-      className="group relative w-full overflow-hidden rounded-xl bg-gray-100 transition-shadow hover:shadow-lg"
+      className="group relative w-full overflow-hidden rounded-xl transition-shadow hover:shadow-lg bg-img-background-light dark:bg-img-background-dark"
     >
       {/* Checkbox for selection */}
-      <div className="absolute right-3 top-3 z-10">
+      {isSelected && <div className="absolute left-3 top-3 z-10">
         <input
           type="checkbox"
           checked={isSelected}
           onChange={handleCheck}
           className="h-6 w-6 cursor-pointer rounded accent-blue-500"
         />
-      </div>
+      </div>}
 
       {/* Image */}
-      <CldImage
-        alt="Football photo"
-        className="h-full w-full object-cover brightness-90 transition-transform duration-300 group-hover:brightness-100 group-hover:scale-105"
-        placeholder="blur"
-        blurDataURL={blurDataUrl}
-        src={public_id}
-        width={400} // Aumentado para melhor qualidade no mobile
-        height={400}
-        crop="fill"
-        format="webp"
-        loading="lazy"
-        sizes="(max-width: 640px) 100vw, (max-width: 900px) 50vw, (max-width: 1280px) 33vw, 25vw"
-      />
+      <div className="m-3" onClick={() => onSelect?.(public_id)}>
+        <CldImage
+          alt="Football photo"
+          className="h-full w-full rounded-lg object-cover brightness-90 transition-transform duration-300 group-hover:brightness-110 group-hover:scale-110"
+          placeholder="blur"
+          blurDataURL={blurDataUrl}
+          src={public_id}
+          width={400} // Aumentado para melhor qualidade no mobile
+          height={400}
+          crop="fill"
+          format="webp"
+          loading="lazy"
+          sizes="(max-width: 640px) 100vw, (max-width: 900px) 50vw, (max-width: 1280px) 33vw, 25vw"
+        />
+      </div>
 
       {/* Selected overlay */}
       {isSelected && (
-        <div className="absolute inset-0 bg-blue-500/30 transition-opacity" />
+        <div className="absolute inset-0 bg-blue-500/30 transition-opacity" onClick={() => onSelect?.(public_id)} />
       )}
     </div>
   )

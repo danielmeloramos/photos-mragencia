@@ -3,10 +3,10 @@ import { CldImage } from 'next-cloudinary'
 import { useSwipeable } from 'react-swipeable'
 import { variants } from 'utils/animationVariants'
 
-import type { SharedModalProps } from 'utils/types'
 import UserActions from './UserActions'
 import ModalNavigation from './ModalNavigation'
 import ModalBack from './ModalBack'
+import { sharedModal } from 'types'
 
 export default function SharedModal({
   index,
@@ -16,7 +16,7 @@ export default function SharedModal({
   navigation,
   currentPhoto,
   direction
-}: SharedModalProps) {
+}: sharedModal) {
   const handlers = useSwipeable({
     onSwipedLeft: () => {
       if (index < images?.length - 1) {

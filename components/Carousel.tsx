@@ -1,16 +1,16 @@
 import { useRouter } from 'next/router'
 import useKeypress from 'react-use-keypress'
 import { CldImage } from 'next-cloudinary'
-import type { ImageProps } from '../utils/types'
 import { useLastViewedPhoto } from '../utils/useLastViewedPhoto'
 import SharedModal from './SharedModal'
+import { image } from 'types'
 
 export default function Carousel({
   index,
   currentPhoto
 }: {
   index: number
-  currentPhoto: ImageProps
+  currentPhoto: image
 }) {
   const router = useRouter()
   const [, setLastViewedPhoto] = useLastViewedPhoto()

@@ -3,6 +3,7 @@ module.exports = {
   future: {
     hoverOnlyWhenSupported: true
   },
+  darkMode: 'class',
   content: [
     './app/**/*.{js,ts,jsx,tsx}',
     './pages/**/*.{js,ts,jsx,tsx}',
@@ -11,9 +12,25 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        main: '#030518',
-        medium: '#0a0c21',
-        details: '#f231A5'
+        background: {
+          light: '#ffffff',
+          dark: '#0E0E0E'
+        },
+        text: {
+          light: '#000000',
+          dark: '#ffffff',
+        },
+        border: {
+          light: '#bbb',
+          dark: '#2D2D2D'
+        },
+        img: {
+          background: {
+            dark: '#161616',
+            light: '#fff'
+          }
+        },
+        whatsapp: '#0D6D47'
       },
       boxShadow: {
         highlight: 'inset 0 0 0 1px rgba(255, 255, 255, 0.05)'

@@ -7,12 +7,12 @@ type WhatsappButtonProps = {
 
 const calculatePrice = (quantity: number): number => {
   if (quantity === 0) return 0
-  if (quantity === 1) return 8
-  return 8 + (quantity - 1) * 5
+  if (quantity === 1) return Number(process.env.NEXT_PUBLIC_PRICE)
+  return Number(process.env.NEXT_PUBLIC_PRICE) + (quantity - 1) * 5
 }
 
 const WhatsappButton = ({ selectedImages }: WhatsappButtonProps) => {
-  const phoneNumber = '5549991509774'
+  const phoneNumber = process.env.NEXT_PUBLIC_WHATSAPP
 
   const price = calculatePrice(selectedImages.length)
   const formatPrice = (price: number) => `R$ ${price.toFixed(2).replace('.', ',')}`
@@ -50,24 +50,17 @@ const WhatsappButton = ({ selectedImages }: WhatsappButtonProps) => {
         href={selectedImages.length > 0 ? link : undefined}
         target={selectedImages.length > 0 ? '_blank' : undefined}
         rel={selectedImages.length > 0 ? 'noopener noreferrer' : undefined}
-        className={`flex items-center gap-2 rounded-full px-6 py-3 text-white shadow-lg transition-all ${
+        className={`flex items-center gap-2 rounded-lg px-6 py-3 shadow-lg transition-all ${
           selectedImages.length === 0
             ? 'bg-gray-400 cursor-not-allowed'
-            : 'bg-blue-500 hover:bg-blue-600'
+            : 'bg-whatsapp hover:bg-green-900'
         }`}
         aria-label="Comprar foto via WhatsApp"
         onClick={handleClick}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="white"
-          viewBox="0 0 24 24"
-          width="24"
-          height="24"
-        >
-          <path d="M7 4h-2l-3 9v2h2l3-9zm16 1h-14l-1.2 3h13.4l-1.5 4h-11l-1.2 3h12.9l3.5-10h-1zm-4 15c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm-10 0c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2z" />
-        </svg>
-        <span className="font-semibold">Comprar foto</span>
+        <div className='m-0 p-0 overflow-clip'>
+          <span className="font-semibold text-white text-sm md:text-base whitespace-nowrap">Comprar via WhatsApp</span>
+        </div>
       </a>
     </>
   )
