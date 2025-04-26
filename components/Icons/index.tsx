@@ -1,5 +1,4 @@
 export { default as Instagram } from './Instagram'
-export { default as Twitter } from './Twitter'
-export { default as Camera } from './Camera'
-export { default as Filter } from './Filter'
-export { default as Computer } from './Computer'
+export { default as Sun } from './Sun'
+export { default as Moon } from './Moon'
+export { default as GoBack } from './GoBack'
