@@ -1,8 +1,8 @@
-import { folder } from 'types'
+import { folder, folderState } from 'types'
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { createJSONStorage, persist } from 'zustand/middleware'
 
-export const useFolderStore = create(
+export const useFolderStore = create<folderState>()(
     persist(
         (set) => ({
             folder: null as folder | null,
@@ -10,6 +10,6 @@ export const useFolderStore = create(
         }),
         {
             name: 'folder-storage',
-            getStorage: () => localStorage,
+            storage: createJSONStorage(() => localStorage)
         }
 ))
