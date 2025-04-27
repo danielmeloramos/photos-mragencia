@@ -1,8 +1,10 @@
 import cloudinaryApi from 'apis/cloudinary'
 import { Header } from 'components'
 import type { NextPage } from 'next'
+import { useTheme } from 'next-themes'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import { useFolderStore } from 'stores/folderStore'
 import { formatDate } from 'utils/date'
 
@@ -11,6 +13,11 @@ const Home: NextPage = ({
 }: {
   folders: any
 }) => {
+
+  const { setTheme } = useTheme()
+  useEffect(() => { 
+    setTheme('dark')
+  }, [])
 
   const router = useRouter()
   const { add } = useFolderStore()
@@ -30,13 +37,13 @@ const Home: NextPage = ({
         <Header showGoBack={false} />
         <div className='flex flex-col justify-center items-center p-2 sm:p-5'>          
           <h1 className='text-3xl font-bold'>MR FOTOGRAFIAS</h1>
-          <div className='flex my-5'>
+          <div className='my-5 grid grid-cols-9'>
             {
               folders.map((folder) => {
                 let date = new Date(folder.lastUpdate);
                 return (
-                  <div key={folder.name} className='border border-solid border-border-light dark:border-border-dark rounded-xl mx-1 sm:mx-3 my-3 justify-center p-3 items-center cursor-pointer' onClick={() => goToFolder(folder.name)}>
-                    <p className='text-center'>{folder.name}</p>
+                  <div key={folder.name} className='col-span-3 border border-solid border-border-light dark:border-border-dark rounded-xl mx-1 sm:mx-3 my-3 justify-center p-3 items-center cursor-pointer' onClick={() => goToFolder(folder.name)}>
+                    <p className='text-center overflow-hidden text-ellipsis'>{folder.name}</p>
                     <p className='text-center'>{formatDate(date)}</p>
                   </div>
                 )
