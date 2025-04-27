@@ -123,7 +123,7 @@ const Home: NextPage = ({ images }: { images: image[] }) => {
             <Masonry
               items={visibleImages}
               config={{
-                columns: [3, 3, 4, 5, 6, 7, 8], // Reduzido para 4 colunas no máximo
+                columns: [2, 3, 4, 5, 6, 7, 8], // Reduzido para 4 colunas no máximo
                 gap: [10, 10, 10, 10, 10, 10, 10], // Mantém o espaçamento pequeno
                 media: [640, 900, 1280, 1600, 1800, 2400, 2800] // Breakpoints ajustados
               }}
