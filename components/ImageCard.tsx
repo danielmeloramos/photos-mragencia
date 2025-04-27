@@ -52,7 +52,7 @@ export default function ImageCard({
           src={public_id}
           width={400} // Aumentado para melhor qualidade no mobile
           height={400}
-          crop="fill"
+          crop="limit"
           format="webp"
           loading="lazy"
           sizes="(max-width: 640px) 100vw, (max-width: 900px) 50vw, (max-width: 1280px) 33vw, 25vw"
