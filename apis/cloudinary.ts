@@ -1,7 +1,7 @@
 import cloudinary from "utils/cloudinary"
 
 async function getFolders() {
-    const LIMIT = 3;
+    const LIMIT = 5;
     let result = await cloudinary.v2.api.root_folders();
     result.folders = result.folders.slice(0, LIMIT);
     return result;

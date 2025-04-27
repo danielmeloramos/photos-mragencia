@@ -81,6 +81,7 @@ export async function getStaticProps() {
   return {
     props: {
       folders: result
-    }
+    },
+    revalidate: 60, 
   }
 }
