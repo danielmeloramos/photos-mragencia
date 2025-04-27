@@ -1,21 +1,16 @@
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { calculatePrice, formatPrice } from 'utils/priceHelper'
 
 type WhatsappButtonProps = {
   selectedImages: string[] // Recebe apenas os public_ids
-}
-
-const calculatePrice = (quantity: number): number => {
-  if (quantity === 0) return 0
-  if (quantity === 1) return Number(process.env.NEXT_PUBLIC_PRICE)
-  return Number(process.env.NEXT_PUBLIC_PRICE) + (quantity - 1) * 5
 }
 
 const WhatsappButton = ({ selectedImages }: WhatsappButtonProps) => {
   const phoneNumber = process.env.NEXT_PUBLIC_WHATSAPP
 
   const price = calculatePrice(selectedImages.length)
-  const formatPrice = (price: number) => `R$ ${price.toFixed(2).replace('.', ',')}`
+  
 
   const message = encodeURIComponent(
     selectedImages.length > 0
@@ -50,7 +45,7 @@ const WhatsappButton = ({ selectedImages }: WhatsappButtonProps) => {
         href={selectedImages.length > 0 ? link : undefined}
         target={selectedImages.length > 0 ? '_blank' : undefined}
         rel={selectedImages.length > 0 ? 'noopener noreferrer' : undefined}
-        className={`flex items-center gap-2 rounded-lg px-6 py-3 shadow-lg transition-all ${
+        className={`flex items-center gap-2 rounded-lg px-2 sm:px-6 py-2 sm:py-3 shadow-lg transition-all ${
           selectedImages.length === 0
             ? 'bg-gray-400 cursor-not-allowed'
             : 'bg-whatsapp hover:bg-green-900'
@@ -58,7 +53,7 @@ const WhatsappButton = ({ selectedImages }: WhatsappButtonProps) => {
         aria-label="Comprar foto via WhatsApp"
         onClick={handleClick}
       >
-        <div className='m-0 p-0 overflow-clip'>
+        <div className='m-0 p-0 overflow-ellipsis flex-nowrap overflow-hidden'>
           <span className="font-semibold text-white text-sm md:text-base whitespace-nowrap">Comprar via WhatsApp</span>
         </div>
       </a>

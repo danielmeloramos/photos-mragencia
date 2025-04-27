@@ -12,6 +12,7 @@ import { useFolderStore } from 'stores/folderStore'
 import { image } from 'types'
 import { formatDate } from 'utils/date'
 import getBase64ImageUrl from 'utils/generateBlurPlaceholder'
+import { calculatePrice, formatPrice } from 'utils/priceHelper'
 import { useLastViewedPhoto } from 'utils/useLastViewedPhoto'
 
 const Home: NextPage = ({ images }: { images: image[] }) => {
@@ -145,11 +146,16 @@ const Home: NextPage = ({ images }: { images: image[] }) => {
             />
           </div>
 
-          <div className="fixed bottom-4 left-1/2 z-40 flex w-[92%] md:w-fit -translate-x-1/2 items-center justify-between gap-8 rounded-lg bg-slate-200 dark:bg-border-dark px-4 py-2 shadow-lg">
-            <span className="text-sm font-medium sm:text-base overflow-clip whitespace-nowrap">
-              {selectedImages.length} {selectedImages.length > 1 ? 'fotos selecionadas' : 'foto selecionada'}
-            </span>
-            <WhatsappButton selectedImages={selectedImages} />
+          <div className="fixed bottom-4 left-1/2 z-40 flex w-[92%] md:w-fit -translate-x-1/2 items-center justify-between rounded-lg bg-slate-200 dark:bg-border-dark px-4 py-2 shadow-lg grid grid-cols-12">
+            <div className='col-span-6 overflow-ellipsis overflow-hidden whitespace-nowrap flex-nowrap'>
+              <span className="text-sm font-medium sm:text-base whitespace-nowrap">
+                {selectedImages.length} {selectedImages.length > 1 ? 'fotos selecionadas' : 'foto selecionada'}
+              </span>
+              <p>{formatPrice(calculatePrice(selectedImages.length))}</p>
+            </div>
+            <div className='col-span-6 overflow-ellipsis overflow-hidden whitespace-nowrap flex-nowrap'>
+              <WhatsappButton selectedImages={selectedImages} />
+            </div>
           </div>
         </main>
       </div>
