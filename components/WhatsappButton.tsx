@@ -3,10 +3,11 @@ import 'react-toastify/dist/ReactToastify.css'
 import { calculatePrice, formatPrice } from 'utils/priceHelper'
 
 type WhatsappButtonProps = {
-  selectedImages: string[] // Recebe apenas os public_ids
+  selectedImages: string[],
+  isFullUrl: boolean
 }
 
-const WhatsappButton = ({ selectedImages }: WhatsappButtonProps) => {
+const WhatsappButton = ({ selectedImages, isFullUrl }: WhatsappButtonProps) => {
   const phoneNumber = process.env.NEXT_PUBLIC_WHATSAPP
 
   const price = calculatePrice(selectedImages.length)
@@ -16,7 +17,7 @@ const WhatsappButton = ({ selectedImages }: WhatsappButtonProps) => {
     selectedImages.length > 0
       ? `Olá! Tenho interesse em comprar ${selectedImages.length} foto${selectedImages.length > 1 ? 's' : ''}.\n\n` +
         selectedImages
-          .map((public_id, index) => `${index + 1}. https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${public_id}.webp`)
+          .map((public_id, index) => index + 1 + '. ' + (isFullUrl ? public_id : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${public_id}.webp`))
           .join('\n') +
         `\n\nValor total: ${formatPrice(price)}`
       : 'Olá! Tenho interesse em comprar uma foto.'
